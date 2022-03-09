@@ -1,0 +1,55 @@
+<form novalidate name="formulario" ng-submit="vm.avaliar(formulario)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+
+    <div class="modal-header">
+        <h5 class="modal-title">AVALIAR VARIÁVEL</h5>
+        <button type="button" class="close" ng-click="vm.fecharModalAvaliacao()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div class="modal-body p-0">
+
+        <div class="row">
+			<div class="col-12">
+				<div class="card text-white border-0 bg-success">
+					<div class="card-body no-border pointer" ng-click="vm.modalAvaliacao.model.idOcorrenciaSituacao = 1">
+						<div class="d-flex align-items-center">
+							<i ng-class="vm.modalAvaliacao.model.idOcorrenciaSituacao == 1 ? 'icon-check' : 'icon-close text-success'" style="font-size: 2.5rem"></i>
+							<div class="ml-4">
+                                <h4 class="font-weight-bold">Conforme:</h4>
+								<p class="mb-0 font-weight-light" ng-bind="vm.modalAvaliacao.variavel.descricaoConforme"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card text-white border-0 bg-warning">
+					<div class="card-body no-border pointer" ng-click="vm.modalAvaliacao.model.idOcorrenciaSituacao = 2">
+						<div class="d-flex align-items-center">
+							<i ng-class="vm.modalAvaliacao.model.idOcorrenciaSituacao == 2 ? 'icon-check' : 'icon-close text-warning'" style="font-size: 2.5rem"></i>
+							<div class="ml-4">
+                                <h4 class="font-weight-bold">Conforme com ressalva:</h4>
+								<p class="mb-0 font-weight-light" ng-bind="vm.modalAvaliacao.variavel.descricaoConformeComRessalva"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card text-white border-0 bg-danger">
+					<div class="card-body no-border pointer" ng-click="vm.modalAvaliacao.model.idOcorrenciaSituacao = 3">
+						<div class="d-flex align-items-center">
+							<i ng-class="vm.modalAvaliacao.model.idOcorrenciaSituacao == 3 ? 'icon-check' : 'icon-close text-danger'" style="font-size: 2.5rem"></i>
+							<div class="ml-4">
+                                <h4 class="font-weight-bold">Não Conforme:</h4>
+								<p class="mb-0 font-weight-light" ng-bind="vm.modalAvaliacao.variavel.descricaoNaoConforme"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success" ng-disabled="formulario.$invalid || !vm.modalAvaliacao.model.idOcorrenciaSituacao">Salvar</button>
+    </div>
+
+</form>

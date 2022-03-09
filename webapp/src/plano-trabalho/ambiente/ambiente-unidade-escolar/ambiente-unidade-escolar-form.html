@@ -1,0 +1,70 @@
+<form novalidate name="formulario" ng-submit="vm.salvar(formulario)" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+
+    <div class="modal-header">
+        <h5 class="modal-title" ng-if="vm.modal.isEditar">EDITAR AMBIENTE DA UNIDADE ESCOLAR</h5>
+        <h5 class="modal-title" ng-if="!vm.modal.isEditar">CADASTRAR AMBIENTE DA UNIDADE ESCOLAR</h5>
+        <button type="button" class="close" ng-click="vm.fecharModal()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Dados gerais</h4>
+                        <p class="text-muted font-weight-light">Informações do ambiente e metragem.   
+                        
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="ambienteGeral" class="obrigatorio">Ambiente Geral</label>
+                                    <select class="form-control" id="ambienteGeral" name="ambienteGeral" ng-model="vm.modal.model.idAmbienteGeral" 
+                                        ng-options="ambienteGeral.id as ambienteGeral.descricao for ambienteGeral in vm.ambienteGeralList"
+                                        ng-change="vm.evtChangeAmbienteGeral()"
+                                        ng-class="{'is-invalid': (formulario.ambienteGeral.$dirty && formulario.ambienteGeral.$invalid)}" required>
+                                        <option value="" disabled>Selecione</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="descricao" class="obrigatorio">Nome do Ambiente</label>
+                                    <input type="text" id="descricao" name="descricao" class="form-control" ng-model="vm.modal.model.descricao" 
+                                        ng-class="{'is-invalid': (formulario.descricao.$dirty && formulario.descricao.$invalid)}" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="tipoAmbiente">Tipo de Ambiente</label>
+                                    <input type="text" id="tipoAmbiente" name="tipoAmbiente" class="form-control" ng-model="vm.modal.model.tipoAmbiente" 
+                                        ng-class="{'is-invalid': (formulario.tipoAmbiente.$dirty && formulario.tipoAmbiente.$invalid)}" required disabled>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="areaAmbiente" class="obrigatorio">Área do Ambiente (m²)</label>
+                                    <input type="text" id="areaAmbiente" name="areaAmbiente" class="form-control" ng-model="vm.modal.model.areaAmbiente" 
+                                        ng-class="{'is-invalid': (formulario.areaAmbiente.$dirty && formulario.areaAmbiente.$invalid)}" required>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success" ng-disabled="formulario.$invalid">Salvar</button>
+    </div>
+
+</form>

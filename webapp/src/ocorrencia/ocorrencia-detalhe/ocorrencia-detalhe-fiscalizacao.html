@@ -1,0 +1,36 @@
+<div class="pl-4 pr-4 mb-5">
+    <uib-accordion class="accordion accordion-solid-header accordion-custom">
+        <div uib-accordion-group is-open="vm.isFilterOpen">
+            <uib-accordion-heading>
+                Considerações finais do fiscal da unidade escolar
+            </uib-accordion-heading>
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-info text-center" ng-if="usuario.usuarioOrigem.codigo != 'ue' && !vm.ocorrencia.flagEncerrado">
+                        <br><i class="icon-md icon-clock"></i>
+                        <p class="mt-3">Ocorrência aberta, aguardando fiscal.</p>
+                    </div>
+                    <div class="alert alert-warning text-center" ng-if="vm.ocorrencia.flagEncerrado">
+                        <br><i class="icon-md icon-check"></i>
+                        <p class="mt-3">Ocorrência encerrada pelo fiscal em {{ vm.ocorrencia.dataHoraFinal | date:'dd/MM/yyyy HH:mm:ss'}}.</p>
+                    </div>
+                    <div class="alert alert-fill-danger text-center text-bold p-3" ng-if="vm.ocorrencia.flagEncerrado && vm.ocorrencia.flagGerarDesconto">
+                        Essa ocorrência irá gerar desconto no faturamento do prestador de serviço!
+                    </div>
+                    <div ng-if="!vm.ocorrencia.flagEncerrado && usuario.usuarioOrigem.codigo == 'ue'">
+                        <div class="form-check">
+                            <label for="flagGerarDesconto" class="form-check-label">
+                                <input type="checkbox" id="flagGerarDesconto" class="form-check-input" ng-model="vm.ocorrencia.flagGerarDesconto">
+                                    Gerar desconto no faturamento
+                                    <i class="input-helper"></i>
+                            </label>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-lg btn-fw p-3 mt-3" ng-click="vm.encerrar()">
+                            Encerrar Ocorrência
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </uib-accordion>
+</div>

@@ -1,0 +1,56 @@
+* {
+    -webkit-print-color-adjust:exact;
+    font-family:"Source Sans Pro",sans-serif;
+}
+
+.responsive-logo {
+    width: 100%;
+    max-width: 180px;
+    height: auto;
+}
+
+.responsive-qrcode {
+    width: 100%;
+    max-width: 350px;
+    height: auto;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.d-ib {
+    display: inline-block;
+}
+
+.text-bold {
+    font-weight: bold;
+}
+
+.fs-10 {
+    font-size: 10px;
+}
+
+.fs-12 {
+    font-size: 12px;
+}
+
+.fs-36 {
+    font-size: 36px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-30 {
+    margin-top: 30px;
+}
+
+.mt-80 {
+    margin-top: 80px;
+}
+
+.mb-50 {
+    margin-bottom: 50px;
+}

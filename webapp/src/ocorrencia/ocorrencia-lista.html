@@ -1,0 +1,78 @@
+<div class="card">
+    <div class="card-body p-0">
+
+        <h4 class="card-title m-4">OCORRÊNCIAS
+            <div class="text-right" ng-if="vm.flagPodeCadastrar">
+                <button type="button" class="btn btn-success btn-sm" ng-click="vm.abrirModal()">
+                    Adicionar
+                    <i class="icon-plus ml-1"></i>
+                </button>
+            </div>
+        </h4>
+
+        <uib-accordion class="accordion accordion-solid-header accordion-custom">
+            <div uib-accordion-group is-open="vm.isFilterOpen">
+                <uib-accordion-heading>
+                    Filtros de busca
+                </uib-accordion-heading>
+                <form novalidate autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-4 col-sm-12 mb-3">
+                            <div class="form-control">
+                                <label for="data" class="dois-pontos">Data da Ocorrência</label>
+                                <input type="text" class="form-control lh-18" id="data" ng-model="vm.filtros.data"
+                                    uib-datepicker-popup="dd/MM/yyyy" datepicker-options="vm.optionsDatePickerFiltro" is-open="focus1" ng-focus="focus1=true">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12 mb-3">
+                            <div class="form-control">
+                                <label for="ue" class="dois-pontos">Variável Gerencial</label>
+                                <select class="form-control" id="ue" ng-model="vm.filtros.idOcorrenciaTipo" ng-options="ot.id as ot.descricao for ot in vm.idOcorrenciaTipoList">
+                                    <option value="" selected>Todos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12 mb-3" ng-if="usuario.usuarioOrigem.codigo != 'ue'">
+                            <div class="form-control">
+                                <label for="ue" class="dois-pontos">Unidade Escolar</label>
+                                <select class="form-control" id="ue" ng-model="vm.filtros.idUnidadeEscolar" ng-options="ue.id as ue.descricao for ue in vm.unidadeEscolarList">
+                                    <option value="" selected>Todos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12 mb-3" ng-if="usuario.usuarioOrigem.codigo != 'ps'">
+                            <div class="form-control">
+                                <label for="ps" class="dois-pontos">Prestador de Serviço</label>
+                                <select class="form-control" id="ps" ng-model="vm.filtros.idPrestadorServico" ng-options="ps.id as ps.razaoSocial for ps in vm.prestadorServicoList">
+                                    <option value="" selected>Todos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-4 col-sm-12 mb-3">
+                            <div class="form-control">
+                                <label for="encerrado" class="dois-pontos">Encerrado</label>
+                                <select class="form-control" id="encerrado" ng-model="vm.filtros.flagEncerrado">
+                                    <option value="" selected>Todos</option>
+                                    <option value="true">Sim</option>
+                                    <option value="false">Não</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            <button type="button" class="btn btn-primary" ng-click="vm.recarregarTabela()">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </uib-accordion>
+
+        <div class="row">
+            <div class="col-12">
+                <lista></lista>
+            </div>
+        </div>
+
+    </div>
+</div>

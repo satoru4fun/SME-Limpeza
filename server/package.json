@@ -1,0 +1,40 @@
+{
+    "name": "api-sme-prefeitura-sao-paulo",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon server.js"
+    },
+    "author": "jfrantz",
+    "license": "ISC",
+    "dependencies": {
+        "@googlemaps/google-maps-services-js": "^3.1.16",
+        "bcrypt": "^5.0.1",
+        "camelcase-keys": "^6.2.2",
+        "camelcase-keys-deep": "^0.1.0",
+        "cep-promise": "^4.1.1",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "dotenv-safe": "^8.2.0",
+        "express": "^4.17.1",
+        "express-group-routes": "^1.1.0",
+        "fs": "0.0.1-security",
+        "fs-extra": "^9.1.0",
+        "generate-password": "^1.5.1",
+        "html-pdf": "^3.0.1",
+        "jsonwebtoken": "^8.5.1",
+        "jszip": "^3.7.1",
+        "moment": "^2.26.0",
+        "moment-weekdaysin": "^1.0.1",
+        "morgan": "^1.10.0",
+        "nodemailer": "^6.7.2",
+        "pg": "^8.0.0",
+        "qrcode": "^1.5.0",
+        "rfr": "^1.2.3",
+        "uuid": "^8.3.2"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.4"
+    }
+}

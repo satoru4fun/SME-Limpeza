@@ -1,0 +1,66 @@
+<div class="card">
+    <div class="card-body p-0">
+
+        <h4 class="card-title m-4">RELATÓRIO GERENCIAL</h4>
+
+        <uib-accordion class="accordion accordion-solid-header accordion-custom">
+            <div uib-accordion-group is-open="vm.isFilterOpen">
+                <uib-accordion-heading>
+                    Filtros de busca
+                </uib-accordion-heading>
+                <form novalidate autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-6 col-sm-12 mb-3">
+                            <div class="form-control">
+                                <label for="ano" class="dois-pontos">Ano de Referência</label>
+                                <select class="form-control" id="ano" ng-model="vm.filtros.ano" ng-options="ano as ano for ano in vm.anoList">
+                                    <option value="" selected>Todos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6 col-sm-12 mb-3">
+                            <div class="form-control">
+                                <label for="mes" class="dois-pontos">Mês de Referência</label>
+                                <select class="form-control" id="mes" ng-model="vm.filtros.mes" ng-options="mes.mes as mes.descricao for mes in vm.mesList">
+                                    <option value="" selected>Todos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 col-sm-12 mb-3" ng-if="usuario.usuarioOrigem.codigo != 'ps'">
+                            <div class="form-control">
+                                <label for="ps" class="dois-pontos">Prestador de Serviço</label>
+                                <select class="form-control" id="ps" ng-model="vm.filtros.idPrestadorServico" ng-options="ps.id as ps.razaoSocial for ps in vm.prestadorServicoList">
+                                    <option value="" selected>Todos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- <div class="col-lg-2 col-md-6 col-sm-12 mb-3">
+                            <div class="form-control">
+                                <label for="consolidacao" class="dois-pontos">Consolidação</label>
+                                <select class="form-control" id="consolidacao" ng-model="vm.filtros.flagConsolidado">
+                                    <option value="" selected>Todos</option>
+                                    <option value="true">Sim</option>
+                                    <option value="false">Não</option>
+                                </select>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <button type="button" class="btn btn-primary" ng-click="vm.recarregarTabela()">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </uib-accordion>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-12">
+                <lista></lista>
+            </div>
+        </div>
+
+    </div>
+</div>

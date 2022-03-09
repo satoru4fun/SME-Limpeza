@@ -1,0 +1,96 @@
+<div class="row">
+	<div class="col-sm-12 col-md-12 col-lg-6">
+		<div class="card">
+			<div class="card-body p-0">
+                <h4 class="card-title mx-4 mt-4">Contratos vencendo em 90 dias</h4>
+                <p class="text-muted font-weight-light mx-4 mb-4">Relação de contratos ativos com data final inferior a 90 dias.</p>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="pl-4">
+                                    Descrição
+                                </th>
+                                <th class="">
+                                    Prestador de Serviço
+                                </th>
+                                <th class="pr-4 text-right">
+                                    Data Final
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="contrato in vm.contratoVencimentoProximoList | filter: vm.filtrarVencendoEm90">
+                                <td class="py-4 pl-4">
+                                    <h5 class="font-weight-light" ng-bind="contrato.descricao"></h5>
+							        <small>Código: {{contrato.codigo}}</small>
+                                </td>
+                                <td>
+                                    <h5 class="font-weight-light" ng-bind="contrato.prestadorServico.razaoSocial"></h5>
+							        <small>CNPJ: {{contrato.prestadorServico.cnpj | brCnpj}}</small>
+                                </td>
+                                <td class="pr-4 text-right">
+                                    <h5 class="font-weight-light" ng-bind="contrato.dataFinal | date:'dd/MM/yyyy'"></h5>
+							        <small>{{contrato.dias}} dias</small>
+                                </td>
+                            </tr>
+                            <tr ng-if="(vm.contratoVencimentoProximoList | filter: vm.filtrarVencendoEm90).length == 0">
+                                <td colspan="3" class="text-center py-4 text-primary">
+                                    <h5>Nenhum contrato a vencer.</h5>
+                                    <small class="text-white">...</small>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+		</div>
+	</div>
+    <div class="col-sm-12 col-md-12 col-lg-6">
+		<div class="card">
+			<div class="card-body p-0">
+                <h4 class="card-title mx-4 mt-4">Contratos vencendo em 180 dias</h4>
+                <p class="text-muted font-weight-light mx-4 mb-4">Relação de contratos ativos com data final inferior a 180 dias.</p>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="pl-4">
+                                    Descrição
+                                </th>
+                                <th class="">
+                                    Prestador de Serviço
+                                </th>
+                                <th class="pr-4 text-right">
+                                    Data Final
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="contrato in vm.contratoVencimentoProximoList | filter: vm.filtrarVencendoEm180">
+                                <td class="py-4 pl-4">
+                                    <h5 class="font-weight-light" ng-bind="contrato.descricao"></h5>
+							        <small>Código: {{contrato.codigo}}</small>
+                                </td>
+                                <td>
+                                    <h5 class="font-weight-light" ng-bind="contrato.prestadorServico.razaoSocial"></h5>
+							        <small>CNPJ: {{contrato.prestadorServico.cnpj | brCnpj}}</small>
+                                </td>
+                                <td class="pr-4 text-right">
+                                    <h5 class="font-weight-light" ng-bind="contrato.dataFinal | date:'dd/MM/yyyy'"></h5>
+							        <small>{{contrato.dias}} dias</small>
+                                </td>
+                            </tr>
+                            <tr ng-if="(vm.contratoVencimentoProximoList | filter: vm.filtrarVencendoEm180).length == 0">
+                                <td colspan="3" class="text-center py-4 text-primary">
+                                    <h5>Nenhum contrato a vencer.</h5>
+                                    <small class="text-white">...</small>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>

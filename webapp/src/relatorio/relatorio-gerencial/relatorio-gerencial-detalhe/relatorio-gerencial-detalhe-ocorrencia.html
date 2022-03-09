@@ -1,0 +1,39 @@
+<div class="modal-header">
+	<h5 class="modal-title">OCORRÊNCIAS</h5>
+	<button type="button" class="close" ng-click="vm.fecharModalOcorrencias()">
+		<span aria-hidden="true">×</span>
+	</button>
+</div>
+
+<div class="modal-body">
+
+	<div class="row">
+		<div class="col-12">
+			<table class="table">
+				<thead>
+					<tr class="bg-light">
+						<th class="text-left">Data da Ocorrência</th>
+						<th class="text-center">Finalizado</th>
+						<th class="text-right">Ação</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="text-right" ng-repeat="ocorrencia in vm.modalOcorrencias.ocorrencias">
+						<td class="text-left" ng-bind="ocorrencia.data | date: 'dd/MM/yyyy'"></td>
+						<td class="text-center">
+							<div class="badge text-white" ng-class="ocorrencia.flagEncerrado ? 'badge-success' : 'badge-danger'">
+								{{ ocorrencia.flagEncerrado ? 'Sim' : 'Não' }}
+							</div>
+						</td>
+						<td>
+							<a class="btn btn-outline-primary btn-sm" href="ocorrencia/detalhe/{{ocorrencia.idOcorrencia}}" target="_blank" title="Visualizar">
+								<i class="icon-eye"></i>
+								Visualizar
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
