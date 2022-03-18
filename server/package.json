@@ -9,7 +9,7 @@
     "author": "jfrantz",
     "license": "ISC",
     "dependencies": {
-        "@googlemaps/google-maps-services-js": "^3.1.16",
+        "axios": "^0.26.1",
         "bcrypt": "^5.0.1",
         "camelcase-keys": "^6.2.2",
         "camelcase-keys-deep": "^0.1.0",

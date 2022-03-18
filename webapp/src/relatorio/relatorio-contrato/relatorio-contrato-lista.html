@@ -3,7 +3,46 @@
 
         <h4 class="card-title m-4">RELATÓRIO CONSOLIDADO POR CONTRATO</h4>
 
-        <h2 class="py-5 text-info text-center">Em desenvolvimento!</h2>
+        <uib-accordion class="accordion accordion-solid-header accordion-custom">
+            <div uib-accordion-group is-open="vm.isFilterOpen">
+                <uib-accordion-heading>
+                    Filtros de busca
+                </uib-accordion-heading>
+                <form novalidate autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                    <div class="row">
+                        <div class="col-lg-2 col-md-6 col-sm-12 mb-3">
+                            <div class="form-control">
+                                <label for="ano" class="dois-pontos">Ano de Referência</label>
+                                <select class="form-control" id="ano" ng-model="vm.filtros.ano" ng-options="ano as ano for ano in vm.anoList">
+                                    <option value="" selected>Todos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-6 col-sm-12 mb-3">
+                            <div class="form-control">
+                                <label for="mes" class="dois-pontos">Mês de Referência</label>
+                                <select class="form-control" id="mes" ng-model="vm.filtros.mes" ng-options="mes.mes as mes.descricao for mes in vm.mesList">
+                                    <option value="" selected>Todos</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-4 col-md-6 col-sm-12">
+                            <button type="button" class="btn btn-primary" ng-click="vm.recarregarTabela()">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </uib-accordion>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-12">
+                <lista></lista>
+            </div>
+        </div>
 
     </div>
 </div>

@@ -23,7 +23,6 @@
 		iniciar();
 		
 		function iniciar() {
-			carregarComboTodosPrestadorServico();
 			carregarCombosDatas();
 			montarTabela();
 		}
@@ -34,48 +33,32 @@
 
 			function criarColunasTabela() {
 
-				var colunas = [
-					{data: '', title: 'Referência', renderWith: function (var1, var2, data) {
-						return `${data.mes}/${data.ano}`;
-					}}
-				];
-
-				if($rootScope.usuario.usuarioOrigem.codigo != 'ps') {
-					colunas.push({data: '', title: 'Prestador de Serviço', renderWith: (var1, var2, data) => {
-						return `
+				const colunas = [
+					{data: '', title: 'Referência', renderWith: (v1, v2, data) => 
+						`${data.mes}/${data.ano}`
+					}, 
+					{data: '', title: 'Contrato', renderWith: (v1, v2, data) =>
+						`
+							<h5 style="font-weight: 100">${data.contrato.codigo}</h5>
+							<small>${data.contrato.descricao}</small>
+						`
+					},
+					{data: '', title: 'Prestador de Serviço', renderWith: (v1, v2, data) =>
+						`
 							<h5 style="font-weight: 100">${data.prestadorServico.razaoSocial}</h5>
 							<small>CNPJ: ${controller.formatarCnpj(data.prestadorServico.cnpj)}</small>
-						`;
-					}});
-				}
-
-				colunas.push({data: 'pontuacaoFinal', title: 'Pontuação', cssClass: 'text-right', renderWith: (value) => {
-					return (value === null || value === undefined) ? ' - ' : parseFloat(value).toFixed(2);
-				}});
-
-				colunas.push({data: 'fatorDesconto', title: 'Desconto', cssClass: 'text-right', renderWith: (value) => {
-					return (value === null || value === undefined) ? ' - ' : (parseFloat(value).toFixed(2) + '%');
-				}});
-
-				colunas.push({data: '', title: 'Situação', cssClass: 'text-right', renderWith: (v1, v2, data) => {
-
-					if(!data.flagAprovadoFiscal) {
-						return '<div class="badge bg-warning p-2 text-white ">Aguardando Fiscal</div>';
+						`
+					},
+					{data: 'valorTotal', title: 'Valor Contrato', cssClass: 'text-right', renderWith: (value) =>
+						(value === null || value === undefined) ? ' - ' : value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
+					},
+					{data: 'valorLiquido', title: 'Valor Líquido', cssClass: 'text-right', renderWith: (value) =>
+						(value === null || value === undefined) ? ' - ' : value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
+					},
+					{data: '', title: 'Ação', width: 15, cssClass: 'text-right', renderWith: (v1, v2, data) =>
+						`<button class="btn btn-outline-primary btn-sm visualizar" title="Visualizar"><i class="icon-eye"></i></button>`
 					}
-
-					if(!data.flagAprovadoDre) {
-						return '<div class="badge bg-info p-2 text-white ">Aguardando DRE</div>';
-					}
-
-					if(data.flagAprovadoDre) {
-						return '<div class="badge bg-success p-2 text-white ">Aprovado</div>';
-					}
-
-				}});
-				
-				colunas.push({data: 'id', title: 'Ação', width: 15, cssClass: 'text-right', renderWith: (var1, var2, data) => {
-					return `<button class="btn btn-outline-primary btn-sm visualizar" title="Visualizar"><i class="icon-eye"></i></button>`;
-				}});
+				];
 
 				vm.tabela.colunas = tabela.adicionarColunas(colunas);
 
@@ -101,33 +84,17 @@
 
 				}
 
-				function rowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+				function rowCallback(nRow, aData) {
 	
-					$('.visualizar', nRow).unbind('click');
-					$('.visualizar', nRow).bind('click', function () {
-						$rootScope.$evalAsync(function () {
-							$location.path('/relatorio/gerencial/detalhe/' + aData.id);
-						});
-					});
+					$('.visualizar', nRow).off('click');
+					$('.visualizar', nRow).on('click', () =>
+						$rootScope.$evalAsync(() => 
+							$location.path(`/relatorio/contrato/detalhe/${aData.ano}/${aData.mes}/${aData.idContrato}`))
+					);
 	
 				}
 
 
-			}
-
-		}
-
-		function carregarComboTodosPrestadorServico() {
-
-			PrestadorServicoUtils.carregarComboTodos().then(success).catch(error);
-
-			function success(response) {
-				vm.prestadorServicoList = response.objeto;
-			}
-
-			function error(response) {
-				controller.feed('error', 'Erro ao buscar combo de prestadores.');
-				vm.prestadorServicoTodosList = [];
 			}
 
 		}
@@ -151,7 +118,7 @@
 
 			vm.anoList = [];
 
-			var anoAtual = 2020;
+			let anoAtual = 2020;
 			while(anoAtual <= moment().format('YYYY')) {
 				vm.anoList.push(anoAtual);
 				anoAtual++;

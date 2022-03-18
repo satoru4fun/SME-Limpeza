@@ -1,22 +1,17 @@
 const conn = require('rfr')('core/database');
 const emailService = require('rfr')('core/email');
-
+const path = require('path'); 
 const moment = require('moment');
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
 let request;
 let emailData = '';
 
 function printToConsole(message, addToEmail = true) {
-
     const dataHora = moment().format('DD/MM/YYYY HH:mm:ss');
-
-    if(addToEmail) {
-        emailData = emailData + `\n<b>| ${dataHora} |</b>\t ${message}`;
-    }
-    
+    if(addToEmail) emailData = emailData + `\n<b>| ${dataHora} |</b>\t ${message}`;
     request.write(`\n<b>| ${dataHora} |</b>\t ${message}`);
     console.log(`\n \x1b[34m %s | %s`, dataHora, message);
-
 }
 
 module.exports = async(req, res) => {
@@ -24,7 +19,7 @@ module.exports = async(req, res) => {
     request = res;
 
     res.write('<pre>');
-    printToConsole('Iniciando processamento - SME - Agendamento Automático', false);
+    printToConsole('Iniciando processamento - SME Limpeza - Agendamento Automático', false);
     printToConsole(`Iso Day: ${moment().isoWeekday()}`, false);
 
     const unidadeEscolarList = await buscarUnidadesEscolaresAtivas();
@@ -35,7 +30,7 @@ module.exports = async(req, res) => {
         await verificarAgendamentosPorUnidadeEscolar(unidadeEscolar);
     }
 
-    printToConsole('Finalizando processamento - SME - Agendamento Automático', false);
+    printToConsole('Finalizando processamento - SME Limpeza - Agendamento Automático', false);
     res.write('</pre>');
     res.end();
 
@@ -262,6 +257,6 @@ async function enviarEmail(unidadeEscolar) {
         <br>At. te, Julio Frantz<br>
     `;
 
-    return await emailService.enviar('julio25frantz@gmail.com', assunto, html);
+    return await emailService.enviar(process.env.EMAIL_NOTIFICATION, assunto, html);
 
 }

@@ -2,7 +2,7 @@ const ctrl = require('rfr')('core/controller');
 const utils = require('rfr')('core/utils/utils.js');
 
 const cepPromise = require('cep-promise');
-const { Client } = require("@googlemaps/google-maps-services-js");
+const axios = require('axios');
 
 exports.buscarPorCep = buscarPorCep;
 exports.buscarCoordenadas = buscarCoordenadas;
@@ -45,19 +45,23 @@ async function buscarPorCep(req, res) {
 
 async function buscarCoordenadas(req, res) {
 
-    const client = new Client({});
-
-    await client.geocode({
-        params: {
-            address: req.params.endereco + ',Brasil',
-            key: process.env.GEOCODE_API
-        },
-        timeout: 1000 // milliseconds
-    }).then(async (response) => {
-        await ctrl.gerarRetornoOk(res, response.data.results[0].geometry.location);
-    }).catch(async (error) => {
-        console.log(error);
-        await ctrl.gerarRetornoErro(res, 'Houve um erro ao buscar as coordenadas por endereço.');
-    });
+    const data = {
+        'text': req.params.endereco,
+        'layers':  'address',
+        'boundary.gid': 'whosonfirst:locality:101965533'
+    };
+    
+    const parameters = new URLSearchParams(data);
+      
+    axios.get('https://georef.sme.prefeitura.sp.gov.br/v1/search?' + parameters)
+        .then((response) => {
+            ctrl.gerarRetornoOk(res, {
+                lng: response.data.features[0].geometry.coordinates[0],
+                lat: response.data.features[0].geometry.coordinates[1]
+            });
+        }).catch((err) => {
+            console.error(err);
+            ctrl.gerarRetornoErro(res, 'Houve um erro ao buscar as coordenadas por endereço.');
+        });
 
 }

@@ -49,6 +49,16 @@
 					}});
 				}
 
+				if($rootScope.usuario.usuarioOrigem.codigo != 'ue') {
+					colunas.push({data: '', title: 'Unidade Escolar', renderWith: (var1, var2, data) => {
+						return `
+							<h5 style="font-weight: 100">${data.unidadeEscolar.descricao}</h5>
+							<small>Tipo: ${data.unidadeEscolar.tipo}</small>
+						`;
+					}});
+				}
+
+
 				colunas.push({data: 'pontuacaoFinal', title: 'Pontuação', cssClass: 'text-right', renderWith: (value) => {
 					return (value === null || value === undefined) ? ' - ' : parseFloat(value).toFixed(2);
 				}});
@@ -103,11 +113,9 @@
 
 				function rowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 	
-					$('.visualizar', nRow).unbind('click');
-					$('.visualizar', nRow).bind('click', function () {
-						$rootScope.$evalAsync(function () {
-							$location.path('/relatorio/gerencial/detalhe/' + aData.id);
-						});
+					$('.visualizar', nRow).off('click');
+					$('.visualizar', nRow).on('click', () => {
+						$rootScope.$evalAsync(() => $location.path('/relatorio/gerencial/detalhe/' + aData.id))
 					});
 	
 				}
@@ -151,7 +159,7 @@
 
 			vm.anoList = [];
 
-			var anoAtual = 2020;
+			let anoAtual = 2020;
 			while(anoAtual <= moment().format('YYYY')) {
 				vm.anoList.push(anoAtual);
 				anoAtual++;

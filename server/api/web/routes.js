@@ -45,6 +45,7 @@ app.group("/api/web", (app) => {
     app.use('/ocorrencia/ocorrencia-variavel', require('./ocorrencia/ocorrencia-variavel/ocorrencia-variavel-controller'));
 
     app.use('/relatorio/relatorio-gerencial', require('./relatorio/relatorio-gerencial/relatorio-gerencial-controller'));
+    app.use('/relatorio/relatorio-contrato', require('./relatorio/relatorio-contrato/relatorio-contrato-controller'));
 
 });
 

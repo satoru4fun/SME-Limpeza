@@ -100,8 +100,8 @@ async function remover(req, res) {
 
 async function notificarAgendamentoManual(idMonitoramento, prestadorServico, unidadeEscolar) {
 
-    let linkMonitoramento = process.env.FRONTEND_URL + '/monitoramento/detalhe/' + idMonitoramento;
-    let destinatario = prestadorServico.email + ',' + unidadeEscolar.diretoriaRegional.emaill;
+    const linkMonitoramento = process.env.FRONTEND_URL + '/monitoramento/detalhe/' + idMonitoramento;
+    const destinatario = prestadorServico.email + ',' + unidadeEscolar.diretoriaRegional.emaill;
 
     ctrl.enviarEmail(destinatario, 'Nova Atividade', `
         Olá,

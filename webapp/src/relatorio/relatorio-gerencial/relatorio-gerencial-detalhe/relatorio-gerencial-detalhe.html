@@ -1,8 +1,13 @@
-<div class="card">
+<div class="card" id="to-export">
 	<div class="card-body">
 
-		<h4 class="card-title">ACOMPANHAMENTO DE RELATÓRIO GERENCIAL</h4>
-
+		<h4 class="card-title">
+			ACOMPANHAMENTO DE RELATÓRIO GERENCIAL
+			<button type="button" class="btn btn-primary-custom d-print-none" onclick="window.print();">
+				<i class="icon-printer"></i>Imprimir
+			</button>
+		</h4>
+		
 		<hr>
 
 		<div class="row">
@@ -41,8 +46,8 @@
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+		<div class="row print-card-header">
+			<div class="col mb-3">
 				<div class="card">
 					<div class="card-body d-flex flex-column justify-content-between">
 						<div>
@@ -54,9 +59,6 @@
 							<p class="mb-0 text-muted font-weight-light">Referência</p>
 						</div>
 						<div>
-							<!-- <span class="badge badge-success mt-3" ng-if="vm.dados.flagAprovadoFiscal">
-								Consolidado em: {{vm.dados.dataHoraConsolidado | date:'dd/MM/yyyy HH:mm:ss'}}
-							</span> -->
 							<span class="badge badge-warning mt-3" ng-if="!vm.dados.flagAprovadoFiscal">Aguardando Fiscal</span>
 							<span class="badge badge-info mt-3" ng-if="vm.dados.flagAprovadoFiscal && !vm.dados.flagAprovadoDre">Aguardando DRE</span>
 							<span class="badge badge-success mt-3" ng-if="vm.dados.flagAprovadoDre">Aprovado</span>
@@ -64,7 +66,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+			<div class="col mb-3">
 				<div class="card">
 					<div class="card-body d-flex flex-column justify-content-between">
 						<div>
@@ -82,7 +84,7 @@
 				</div>
 			</div>
 
-			<div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+			<div class="col mb-3">
 				<div class="card">
 					<div class="card-body d-flex flex-column justify-content-between">
 						<div>
@@ -103,16 +105,16 @@
 				<div class="card mb-3" ng-repeat="tipo in vm.dados.detalhe">
 					<div class="card-body d-flex flex-column justify-content-between p-0">
 						<p class="p-4 m-0 h4 uppercase text-bold text-white bg-primary"ng-bind="tipo.descricao"></p>
-						<div class="tb-responsive">
+						<!-- <div class="tb-responsive"> -->
 							<table class="table">
 								<thead>
 									<tr class="bg-light text-right">
 										<th class="text-left" style="width: 40%">Item da avaliação</th>
 										<th class="text-left">Situação</th>
-										<th ng-style="{ 'width': vm.dados.flagConsolidado ? '15%' : '10%' }">Ocorrências</th>
-										<th ng-style="{ 'width': vm.dados.flagConsolidado ? '15%' : '10%' }">Nota</th>
-										<th ng-style="{ 'width': vm.dados.flagConsolidado ? '15%' : '10%' }">Pontuação</th>
-										<th ng-if="!vm.dados.flagConsolidado && vm.dados.flagPodeFiscalizar">Ação</th>
+										<th ng-style="{ 'width': vm.dados.flagAprovadoFiscal ? '15%' : '10%' }">Ocorrências</th>
+										<th ng-style="{ 'width': vm.dados.flagAprovadoFiscal ? '15%' : '10%' }">Nota</th>
+										<th ng-style="{ 'width': vm.dados.flagAprovadoFiscal ? '15%' : '10%' }">Pontuação</th>
+										<th ng-if="!vm.dados.flagAprovadoFiscal && vm.dados.flagPodeFiscalizar">Ação</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -127,7 +129,7 @@
 										</td>
 										<td ng-bind="variavel.nota === null ? ' - ' : variavel.nota"></td>
 										<td ng-bind="vm.formatarDecimal(variavel.pontuacao)"></td>
-										<td ng-if="!vm.dados.flagConsolidado && vm.dados.flagPodeFiscalizar">
+										<td ng-if="!vm.dados.flagAprovadoFiscal && vm.dados.flagPodeFiscalizar">
 											<button type="button" class="btn btn-outline-primary btn-sm" ng-click="vm.abrirModalAvaliacao(tipo, variavel)">
 												<i class="icon-star mr-1"></i>Avaliar
 											</button>
@@ -135,7 +137,7 @@
 									</tr>
 								</tbody>
 							</table>
-						</div>
+						<!-- </div> -->
 						<table class="table">
 								<thead>
 									<tr class="bg-light">
@@ -157,7 +159,7 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row break-before">
 			<div class="col-12">
 				<div class="card mb-3">
 					<div class="card-body d-flex flex-column justify-content-between p-0">
@@ -223,7 +225,6 @@
 			<h4 class="text-right mb-4">Valor Final de Semana: {{ vm.dados.valorTotalFinalSemana | finance:true:2 }}</h4>
 			<h4 class="text-right mb-5">Multa: {{ vm.dados.valorMulta | finance:true:2 }} <small>({{vm.formatarPercentual(vm.dados.fatorDescontoMulta) }})</small></h4>
 			<h3 class="text-right text-bold mb-4">Total: {{ vm.dados.valorLiquido | finance:true:2 }}</h3>
-			<hr>
 		</div>
 
 	</div>

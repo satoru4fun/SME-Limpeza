@@ -346,8 +346,7 @@ async function montarMenuFiscalUE() {
             nome: 'Relatórios',
             icone: 'icon-chart',
             itemList: [
-                { nome: 'Por Unidade Escolar', link: 'relatorio/gerencial'},
-                { nome: 'Por Contrato', link: 'relatorio/contrato'},
+                { nome: 'Por Unidade Escolar', link: 'relatorio/gerencial'}
             ]
         },
     ];

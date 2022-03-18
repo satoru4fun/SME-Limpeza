@@ -17,12 +17,12 @@
 			controllerAs: 'vm',
 			reloadOnSearch: false
 		})
-		// .when('/relatorio/contrato/detalhe/:id', {
-		// 	templateUrl: 'src/relatorio/relatorio-contrato/relatorio-contrato-detalhe/relatorio-contrato-detalhe.html',
-		// 	controller: 'RelatorioGerencialDetalheController',
-		// 	controllerAs: 'vm',
-		// 	reloadOnSearch: false
-		// });
+		.when('/relatorio/contrato/detalhe/:ano/:mes/:idContrato', {
+			templateUrl: 'src/relatorio/relatorio-contrato/relatorio-contrato-detalhe/relatorio-contrato-detalhe.html',
+			controller: 'RelatorioContratoDetalheController',
+			controllerAs: 'vm',
+			reloadOnSearch: false
+		});
 
 	}
 

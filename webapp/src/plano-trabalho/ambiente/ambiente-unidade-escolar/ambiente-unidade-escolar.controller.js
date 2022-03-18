@@ -84,20 +84,14 @@
 
 				function rowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                 
-					$('.remover', nRow).unbind('click');
-					$('.remover', nRow).bind('click', function () {
-						tabela.evtRemover(aData, remover);
-					});
+					$('.remover', nRow).off('click');
+					$('.remover', nRow).on('click', () => tabela.evtRemover(aData, remover));
 	
-					$('.editar', nRow).unbind('click');
-					$('.editar', nRow).bind('click', function () {
-						carregarObjeto(aData);
-					});
+					$('.editar', nRow).off('click');
+					$('.editar', nRow).on('click', () => carregarObjeto(aData));
 
-					$('.qrcode', nRow).unbind('click');
-					$('.qrcode', nRow).bind('click', function () {
-						gerarQRCode(aData.id);
-					});
+					$('.qrcode', nRow).off('click');
+					$('.qrcode', nRow).on('click', () => gerarQRCode(aData.id));
 	
 				}
 

@@ -57,7 +57,11 @@ class RelatorioGerencialDao extends GenericDao {
             ),
             juntos AS (
                 SELECT rg.id_relatorio_gerencial, rg.mes, rg.ano, rg.id_prestador_servico, rg.id_unidade_escolar, 
-                    rg.pontuacao_final, rg.fator_desconto, rg.valor_bruto, rg.valor_liquido, rg.fator_desconto_multa,
+                    rg.pontuacao_final, 
+                    coalesce(rg.fator_desconto, 0) as fator_desconto, 
+                    rg.valor_bruto, 
+                    coalesce(rg.valor_liquido, 0) as valor_liquido, 
+                    coalesce(rg.fator_desconto_multa, 0) as fator_desconto_multa,
                     rg.total_ambientes_final_semana,
                     rg.total_metros_final_semana,
                     rg.valor_metro_final_semana,
@@ -75,7 +79,7 @@ class RelatorioGerencialDao extends GenericDao {
             
             SELECT 
                 rg.id_relatorio_gerencial, 
-                rg.mes, 
+                to_char(rg.mes, 'fm00') as mes, 
                 rg.ano, 
                 rg.detalhe, 
                 rg.pontuacao_final, 
@@ -109,7 +113,7 @@ class RelatorioGerencialDao extends GenericDao {
             SELECT 
                 COUNT(rg) OVER() AS records_total, 
                 rg.id_relatorio_gerencial AS id, 
-                rg.mes, 
+                to_char(rg.mes, 'fm00') as mes,
                 rg.ano, 
                 rg.pontuacao_final, 
                 rg.fator_desconto, 
@@ -126,7 +130,7 @@ class RelatorioGerencialDao extends GenericDao {
                 AND CASE WHEN $2::INT IS NULL THEN TRUE ELSE rg.id_unidade_escolar = $2::INT END
                 AND CASE WHEN $3::INT IS NULL THEN TRUE ELSE rg.ano = $3::INT END
                 AND CASE WHEN $4::INT IS NULL THEN TRUE ELSE rg.mes = $4::INT END
-            ORDER BY rg.ano, rg.mes DESC 
+            ORDER BY rg.ano DESC, rg.mes DESC 
             LIMIT $5 OFFSET $6
         `, [idPrestadorServico, idUnidadeEscolar, ano, mes, length, start]);
     }
@@ -152,14 +156,15 @@ class RelatorioGerencialDao extends GenericDao {
         `, [pontuacaoParcial, pontuacaoFinal, idRelatorioGerencial, idOcorrenciaTipo], _transaction);
     }
 
-    atualizarTotal(_transaction, idRelatorioGerencial, pontuacaoTotal, fatorDesconto, valorLiquido) {
+    atualizarTotal(_transaction, idRelatorioGerencial, pontuacaoTotal, fatorDesconto, valorLiquido, fatorDescontoMulta) {
         return this.query(`
             UPDATE relatorio_gerencial SET 
                 pontuacao_final  = $1,
                 fator_desconto = $2,
-                valor_liquido = $3
-            WHERE id_relatorio_gerencial = $4
-        `, [pontuacaoTotal, fatorDesconto, valorLiquido, idRelatorioGerencial], _transaction);
+                valor_liquido = $3,
+                fator_desconto_multa = $4
+            WHERE id_relatorio_gerencial = $5
+        `, [pontuacaoTotal, fatorDesconto, valorLiquido, fatorDescontoMulta, idRelatorioGerencial], _transaction);
     }
 
     consolidar(idRelatorioGerencial, idUsuario, dataHoraConsolidacao) {
@@ -178,6 +183,27 @@ class RelatorioGerencialDao extends GenericDao {
                 data_hora_aprovacao_dre = $2
             WHERE id_relatorio_gerencial = $3
         `, [idUsuario, dataHoraConsolidacao, idRelatorioGerencial]);
+    }
+
+    buscarRelatorioPorData(idUnidadeEscolar, idPrestadorServico, mesDoisMesesAnteriores, anoDoisMesesAnteriores, mesUmMesAnterior, anoUmMesAnterior) {
+        return this.queryFindAll(`
+            select *
+            from relatorio_gerencial
+            where
+                id_unidade_escolar = $1 and
+                id_prestador_servico = $2 and
+                (
+                    (mes = $3::int and ano = $4::int) or
+                    (mes = $5::int and ano = $6::int)
+                )
+        `, [
+            idUnidadeEscolar,
+            idPrestadorServico,
+            mesDoisMesesAnteriores,
+            anoDoisMesesAnteriores,
+            mesUmMesAnterior,
+            anoUmMesAnterior
+        ]);
     }
 
 }

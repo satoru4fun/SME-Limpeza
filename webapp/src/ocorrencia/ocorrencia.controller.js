@@ -139,9 +139,9 @@
 
 				function rowCallback(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 	
-					$('.visualizar', nRow).unbind('click');
-					$('.visualizar', nRow).bind('click', function () {
-						$rootScope.$evalAsync(function () {
+					$('.visualizar', nRow).off('click');
+					$('.visualizar', nRow).on('click', () => {
+						$rootScope.$evalAsync(() => {
 							$location.path('ocorrencia/detalhe/' + aData.id);
 						});
 					});

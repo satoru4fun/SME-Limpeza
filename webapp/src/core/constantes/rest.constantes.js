@@ -30,6 +30,7 @@
         ocorrenciaVariavel: 'ocorrencia/ocorrencia-variavel',
         ocorrenciaMensagem: 'ocorrencia/ocorrencia-mensagem',
         relatorioGerencial: 'relatorio/relatorio-gerencial',
+        relatorioContrato: 'relatorio/relatorio-contrato',
         url: getURL()
     };
 

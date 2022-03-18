@@ -1,0 +1,107 @@
+<div class="card" id="to-export">
+	<div class="card-body">
+
+		<h4 class="card-title">RELATÓRIO POR CONTRATO</h4>
+		
+		<hr>
+
+		<div class="row print-card-header">
+			<div class="col mb-3">
+				<div class="card">
+					<div class="card-body d-flex flex-column justify-content-between">
+						<div>
+							<p class="mb-1">
+								<span class="h4 mb-0 mr-2">
+									{{vm.dados.mesReferencia}}/{{vm.dados.anoReferencia}}
+								</span>
+							</p>
+							<p class="mb-0 text-muted font-weight-light">Referência</p>
+						</div>
+						<div>
+							<span class="badge badge-warning mt-3" ng-if="!vm.dados.flagAprovadoFiscal">Aguardando Fiscal</span>
+							<span class="badge badge-info mt-3" ng-if="vm.dados.flagAprovadoFiscal && !vm.dados.flagAprovadoDre">Aguardando DRE</span>
+							<span class="badge badge-success mt-3" ng-if="vm.dados.flagAprovadoDre">Aprovado</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col mb-3">
+				<div class="card">
+					<div class="card-body d-flex flex-column justify-content-between">
+						<div>
+							<p class="mb-1">
+								<span class="h4 mb-0 mr-2" ng-bind="vm.dados.contrato.codigo"></span>
+							</p>
+							<p class="mb-0 text-muted font-weight-light">Contrato</p>
+						</div>
+						<div>
+							<span class="badge badge-success mt-3">
+								{{ vm.dados.contrato.descricao || ' - ' }}
+							</span><br>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col mb-3">
+				<div class="card">
+					<div class="card-body d-flex flex-column justify-content-between">
+						<div>
+							<p class="mb-1"><span class="h4 mb-0 mr-2"
+									ng-bind="vm.dados.prestadorServico.razaoSocial"></span></p>
+							<p class="mb-0 text-muted font-weight-light">Prestador de Serviço</p>
+						</div>
+						<div class="d-inline-flex">
+							<span class="badge badge-success mt-3 mr-2">CNPJ: {{vm.dados.prestadorServico.cnpj | brCnpj}}</span><br>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row mt-1">
+			<div class="col-12">
+				<div class="card mb-3">
+					<div class="card-body d-flex flex-column justify-content-between p-0">
+						<p class="p-4 m-0 h4 uppercase text-bold text-white bg-primary">Resumo dos Relatórios Gerenciais</p>
+						<table class="table">
+							<thead>
+								<tr class="bg-light">
+									<th style="width: 40%">Unidade Escolar</th>
+									<th>Situação</th>
+									<th>Pontuação Final</th>
+									<th>Valor Líquido</th>
+									<th class="text-right">Ação</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="rg in vm.dados.relatorioList">
+									<td ng-bind="rg.unidadeEscolar.descricao"></td>
+									<td>
+										<span class="badge badge-warning" ng-if="!rg.flagAprovadoFiscal">Aguardando Fiscal</span>
+										<span class="badge badge-info" ng-if="rg.flagAprovadoFiscal && !rg.flagAprovadoDre">Aguardando DRE</span>
+										<span class="badge badge-success" ng-if="rg.flagAprovadoDre">Aprovado</span>
+									</td>
+									<td ng-bind="rg.pontuacaoFinal ? vm.formatarDecimal(rg.pontuacaoFinal) : ' - '"></td>
+									<td ng-bind="rg.valorLiquido ? (rg.valorLiquido | finance:true:2) : ' - '"></td>
+									<td class="text-right">
+										<a class="btn btn-outline-primary btn-sm" href="relatorio/gerencial/detalhe/{{rg.idRelatorioGerencial}}" target="_blank">
+											<i class="icon-eye mr-1"></i>
+										</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid mt-5 w-100">
+			<h4 class="text-right mb-4">Valor do Contrato: {{ vm.dados.contrato.valorTotal | finance:true:2 }}</h4>
+			<h3 class="text-right text-bold mb-4">Total: {{ vm.dados.valorLiquido | finance:true:2 }}</h3>
+		</div>
+
+	</div>
+
+</div>

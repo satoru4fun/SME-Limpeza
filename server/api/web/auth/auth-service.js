@@ -60,7 +60,7 @@ async function enviarEmailRecuperacao(req, res) {
 
         const token = await uuidv4();
         await usuarioDao.insertRedefinicaoSenha(usuario.id, token);
-        let linkRecuperacao = process.env.FRONTEND_URL + '/recuperacao-senha/' + token;
+        const linkRecuperacao = process.env.FRONTEND_URL + '/recuperacao-senha/' + token;
 
         await ctrl.enviarEmail(req.body.email, 'Redefina sua senha', `
             Olá,

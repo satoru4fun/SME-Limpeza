@@ -619,3 +619,81 @@ strong {
     background-color: #00B297;
     border-color: #00B297;
 }
+
+@media print {
+
+    body::-webkit-scrollbar {
+        display: none;
+    }
+
+    *:not(.print-card-header) .card p {
+        background-color: transparent !important;
+        color: #000 !important;
+    }
+
+    .table tr {
+        background-color: transparent !important;
+        margin: 0 !important;
+    }
+
+    .table td, .table th {
+        padding: 0.75rem;
+        border: 1px solid #000 !important;
+        background-color: transparent !important;
+        margin: 0 !important;
+    }
+
+    .table th:first-child, .table td:first-child {
+        border-left: transparent !important;
+    }
+
+    .table th:last-child, .table td:last-child {
+        border-right: transparent !important;
+    }
+
+    .alert {
+        background-color: transparent;
+        border: none;
+        border-left: 1px solid #000;
+        color: #000;
+        margin: 0 !important;
+        border-radius: 0 !important;
+    }
+
+    .badge {
+        background-color: transparent;
+        border: none;
+        color: #000;
+        padding: 0;
+    }
+
+    .break-before {
+        margin-top: 30px;
+        page-break-before: always;
+    }
+
+    .card {
+        border: 1px solid #000 !important;
+        border-bottom: none !important;
+    }
+
+    .print-card-header .card {
+        border: 1px solid #000 !important;
+        margin-top: 25px;
+    }
+
+    .print-card-header .card-body {
+        padding: 15px;
+    }
+
+    .main-panel {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    .content-wrapper {
+        padding: 0;
+    }
+
+}

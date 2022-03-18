@@ -25,6 +25,12 @@ Para o funcionamento do recurso de agendamento automáticos dos monitoramentos, 
   1 0 * * * curl http://localhost:$SERVER_PORT/api/system/agendar-monitoramentos-automaticos >> $LOG_PATH/agendamento-automatico-`date +\%F`.log 2>&1
 ```
 
+No quinto dia corrido de cada mês deverão ser gerados os Relatórios Gerenciais referentes ao mês imediatamente anterior, para tal deverá ser adicionado a seguinte chamada no Crontab do servidor que executa a aplicação.
+
+```bash
+  1 0 5 * * curl http://localhost:$SERVER_PORT/api/system/gerar-relatorio-gerencial >> $LOG_PATH/relatorio-gerencial-`date +\%F`.log 2>&1
+```
+
 ## Frontend
 
 Desenvolvido com AngularJS.

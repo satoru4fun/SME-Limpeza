@@ -1,6 +1,7 @@
 const express = require('express');
 
 const agendamentoAutomaticoService = require('./agendamento-automatico');
+const relatorioGerencialService = require('./gerar-relatorio-gerencial');
 
 require('express-group-routes');
 
@@ -17,6 +18,7 @@ app.group('/api/system', (app) => {
     });
 
     app.route('/agendar-monitoramentos-automaticos').get(agendamentoAutomaticoService);
+    app.route('/gerar-relatorio-gerencial').get(relatorioGerencialService);
 
 });
 

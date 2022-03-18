@@ -1,5 +1,6 @@
 const ctrl = require('rfr')('core/controller.js');
 const utils = require('rfr')('core/utils/utils.js');
+const moment = require('moment');
 
 const Dao = require('./relatorio-gerencial-dao');
 const OcorrenciaVariavelDao = require('../../ocorrencia/ocorrencia-variavel/ocorrencia-variavel-dao');
@@ -42,7 +43,6 @@ async function buscar(req, res) {
     relatorioGerencial.valorDesconto = parseFloat(relatorioGerencial.valorBruto) * (parseFloat(relatorioGerencial.fatorDesconto)/100);
     relatorioGerencial.valorMulta = (parseFloat(relatorioGerencial.valorBruto) - parseFloat(relatorioGerencial.valorDesconto) + parseFloat(relatorioGerencial.valorTotalFinalSemana)) * (parseFloat(relatorioGerencial.fatorDescontoMulta)/100);
     
-    console.log(parseFloat(relatorioGerencial.fatorDescontoMulta))
     await ctrl.gerarRetornoOk(res, relatorioGerencial);
 
 }
@@ -219,11 +219,14 @@ async function calcularTotal(_transaction, idRelatorioGerencial) {
         return;
     }
 
-    let fatorDesconto = await calcularFatorDesconto(pontuacaoTotal);
-    let valorDesconto = relatorioGerencial.valorBruto * (fatorDesconto / 100);
-    let valorLiquido = parseFloat(relatorioGerencial.valorBruto  - valorDesconto).toFixed(2);
-    
-    await dao.atualizarTotal(_transaction, idRelatorioGerencial, pontuacaoTotal, fatorDesconto, valorLiquido); 
+    const fatorDesconto = await calcularFatorDesconto(pontuacaoTotal);
+    const valorDesconto = relatorioGerencial.valorBruto * (fatorDesconto / 100);
+    const valorLiquidoPreMulta = parseFloat(relatorioGerencial.valorBruto  - valorDesconto + relatorioGerencial.valorTotalFinalSemana);
+
+    const fatorDescontoMulta = await calcularFatorDescontoMulta(pontuacaoTotal, relatorioGerencial);
+    const valorLiquidoPosMulta = valorLiquidoPreMulta - (valorLiquidoPreMulta * (fatorDescontoMulta / 100));
+
+    await dao.atualizarTotal(_transaction, idRelatorioGerencial, pontuacaoTotal, fatorDesconto, valorLiquidoPosMulta, fatorDescontoMulta); 
 
 }
 
@@ -260,5 +263,31 @@ async function calcularFatorDesconto(pontuacaoTotal) {
     }
 
     return 7.2;
+
+}
+
+async function calcularFatorDescontoMulta(pontuacaoTotal, relatorioGerencial) {
+
+    const PONTUACAO_MINIMA = 70;
+
+    if(pontuacaoTotal >= PONTUACAO_MINIMA) {
+        return 0;
+    }
+
+    const mesDoisMesesAnteriores = moment(`${relatorioGerencial.ano}-${relatorioGerencial.mes}-01`).subtract(2, 'months').startOf('month').format('MM');
+    const anoDoisMesesAnteriores = moment(`${relatorioGerencial.ano}-${relatorioGerencial.mes}-01`).subtract(2, 'months').startOf('month').format('YYYY');
+    
+    const mesUmMesAnterior = moment(`${relatorioGerencial.ano}-${relatorioGerencial.mes}-01`).subtract(1, 'months').endOf('month').format('MM');
+    const anoUmMesAnterior = moment(`${relatorioGerencial.ano}-${relatorioGerencial.mes}-01`).subtract(1, 'months').endOf('month').format('YYYY');
+
+    const relatoriosAnteriores = await dao.buscarRelatorioPorData(
+        relatorioGerencial.unidadeEscolar.id, 
+        relatorioGerencial.prestadorServico.id, 
+        mesDoisMesesAnteriores, anoDoisMesesAnteriores,
+        mesUmMesAnterior, anoUmMesAnterior
+    );
+
+    const pontuacoesMenoresQue70 = relatoriosAnteriores.filter(rg => (rg.pontuacaoFinal != null && rg.pontuacaoFinal < PONTUACAO_MINIMA)).length;
+    return pontuacoesMenoresQue70 == 2 ? 10 : 0;
 
 }

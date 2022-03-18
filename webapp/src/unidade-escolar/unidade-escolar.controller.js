@@ -217,7 +217,7 @@
 				return;
 			}
 
-			var endereco = 
+			const endereco = 
 				vm.modal.model.endereco + ',' + 
 				vm.modal.model.numero + ',' + 
 				vm.modal.model.bairro + ',' + 
@@ -249,7 +249,7 @@
 			EnderecoUtils.buscarCoordenadasPorCep(cep).then(success).catch(error);
 
 			function success(response) {
-				console.log(response.objeto);
+
 				if(response.objeto.lat && response.objeto.lng) {
 					vm.modal.model.latitude = response.objeto.lat;
 					vm.modal.model.longitude = response.objeto.lng;
